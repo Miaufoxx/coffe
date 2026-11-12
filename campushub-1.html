@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CampusHub — Ruang Mahasiswa</title>
+<style>
+:root{--bg:#0b1020;--panel:rgba(255,255,255,.075);--line:rgba(255,255,255,.12);--muted:#a8b2ca;--text:#f6f7ff;--a:#8b7cff;--b:#36c8e8}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;background:radial-gradient(circle at 85% 0%,#30236a 0,transparent 32%),radial-gradient(circle at 0% 80%,#123b5b 0,transparent 32%),var(--bg);color:var(--text);min-height:100vh}
+button,input,textarea{font:inherit}.app{max-width:1180px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}.brand{font-weight:850;font-size:23px;letter-spacing:-.8px}.brand span{color:#a99cff}.profile{color:var(--muted);font-size:13px}.hero{padding:26px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(115deg,rgba(139,124,255,.25),rgba(54,200,232,.1));margin-bottom:20px}.eyebrow{color:#b8adff;font-size:12px;text-transform:uppercase;letter-spacing:1.5px}.hero h1{font-size:clamp(26px,5vw,42px);margin:8px 0}.hero p{color:#d0d7ec;margin:0}.layout{display:grid;grid-template-columns:205px 1fr;gap:18px}.nav,.panel,.stat{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(16px);border-radius:20px}.nav{padding:12px;height:max-content;position:sticky;top:14px}.nav button{width:100%;text-align:left;padding:12px;border:0;background:transparent;color:#c4cbe0;border-radius:12px;cursor:pointer;margin:2px 0}.nav button.active,.nav button:hover{background:rgba(139,124,255,.22);color:white}.content{min-width:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.stat{padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:7px}.panel{padding:19px;margin-bottom:15px}.panel h2{font-size:18px;margin:0 0 14px}.row{display:flex;gap:10px;flex-wrap:wrap}.field{background:rgba(5,9,22,.55);border:1px solid var(--line);border-radius:11px;padding:11px;color:white;min-width:0;flex:1}.btn{border:0;border-radius:11px;padding:11px 15px;background:linear-gradient(110deg,var(--a),#5c9dfb);color:white;font-weight:700;cursor:pointer}.item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.item .grow{flex:1}.muted{color:var(--muted);font-size:13px}.tag{font-size:11px;color:#b8adff;background:rgba(139,124,255,.15);padding:5px 8px;border-radius:20px}.done{text-decoration:line-through;opacity:.5}.hidden{display:none}.empty{color:var(--muted);font-size:14px;padding:10px 0}textarea.field{width:100%;min-height:110px;resize:vertical}.section-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px}.section-title h2{margin:0}
+@media(max-width:700px){.app{padding:15px}.layout{grid-template-columns:1fr}.nav{display:flex;overflow:auto;position:static;gap:4px}.nav button{white-space:nowrap;width:auto}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:span 2}.hero{padding:20px}.profile{display:none}}
+</style></head>
+<body><main class="app">
+<header class="top"><div class="brand">Campus<span>Hub</span></div><div class="profile">Ruang produktif mahasiswa ✦</div></header>
+<section class="hero"><div class="eyebrow">Student workspace</div><h1>Atur kuliahmu, capai targetmu.</h1><p>Satu tempat untuk jadwal, tugas, dan catatan perkuliahan.</p></section>
+<div class="layout"><nav class="nav">
+<button class="active" data-tab="dashboard">⌂ Dashboard</button><button data-tab="tasks">✓ Tugas</button><button data-tab="schedule">▦ Jadwal</button><button data-tab="notes">▤ Catatan</button>
+</nav><section class="content">
+<div id="dashboard">
+<div class="stats"><div class="stat"><small>Tugas tersimpan</small><strong id="taskCount">0</strong></div><div class="stat"><small>Sudah selesai</small><strong id="doneCount">0</strong></div><div class="stat"><small>Jadwal kuliah</small><strong id="scheduleCount">0</strong></div></div>
+<div class="panel"><div class="section-title"><h2>Fokus hari ini</h2><span class="tag">Ringkasan</span></div><div id="todayTasks" class="empty">Belum ada tugas. Tambahkan tugas pertamamu.</div></div>
+<div class="panel"><h2>Mulai dari sini</h2><p class="muted">Tambahkan tugas dengan deadline, catat jadwal kelas, atau simpan ringkasan materi. Data demo disimpan di browser perangkat ini.</p><button class="btn" onclick="showTab('tasks')">+ Tambah tugas</button></div>
+</div>
+<div id="tasks" class="hidden">
+<div class="panel"><h2>Daftar tugas</h2><form id="taskForm" class="row"><input class="field" id="taskName" placeholder="Nama tugas..." required><input class="field" id="taskDate" type="date" aria-label="Deadline"><button class="btn">Tambah</button></form><div id="taskList" style="margin-top:12px"></div></div>
+</div>
+<div id="schedule" class="hidden">
+<div class="panel"><h2>Jadwal kuliah</h2><form id="scheduleForm" class="row"><input class="field" id="className" placeholder="Mata kuliah" required><select class="field" id="classDay"><option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option><option>Sabtu</option></select><input class="field" id="classTime" type="time" required><button class="btn">Simpan</button></form><div id="scheduleList" style="margin-top:12px"></div></div>
+</div>
+<div id="notes" class="hidden">
+<div class="panel"><h2>Catatan kuliah</h2><input class="field" id="noteTitle" placeholder="Judul catatan" style="width:100%;margin-bottom:10px"><textarea class="field" id="noteBody" placeholder="Tulis ringkasan materi, ide, atau hal penting..."></textarea><div class="row" style="margin-top:10px"><button class="btn" onclick="saveNote()">Simpan catatan</button></div><div id="noteList" style="margin-top:12px"></div></div>
+</div>
+</section></div><p class="muted" style="text-align:center;margin:24px 0 5px">CampusHub • Prototype awal • Data tersimpan di browser perangkat ini</p></main>
+<script>
+const get=(k)=>JSON.parse(localStorage.getItem('ch_'+k)||'[]'),put=(k,v)=>localStorage.setItem('ch_'+k,JSON.stringify(v));
+function showTab(t){document.querySelectorAll('.content>div').forEach(x=>x.classList.add('hidden'));document.getElementById(t).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t))}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function render(){let tasks=get('tasks'),sched=get('schedule'),notes=get('notes');taskCount.textContent=tasks.length;doneCount.textContent=tasks.filter(x=>x.done).length;scheduleCount.textContent=sched.length;
+taskList.innerHTML=tasks.length?'':'<div class="empty">Belum ada tugas.</div>';tasks.forEach((x,i)=>taskList.insertAdjacentHTML('beforeend',`<div class="item"><input type="checkbox" ${x.done?'checked':''} onchange="toggleTask(${i})"><div class="grow ${x.done?'done':''}"><b>${esc(x.name)}</b><div class="muted">${x.date?'Deadline: '+x.date:'Tanpa deadline'}</div></div><button class="tag" onclick="deleteTask(${i})">Hapus</button></div>`));
+todayTasks.innerHTML=tasks.filter(x=>!x.done).slice(0,3).map(x=>`<div class="item"><div class="grow">${esc(x.name)}</div><span class="tag">${x.date||'Belum ada tanggal'}</span></div>`).join('')||'Tidak ada tugas aktif.';
+scheduleList.innerHTML=sched.length?'':'<div class="empty">Belum ada jadwal.</div>';sched.forEach((x,i)=>scheduleList.insertAdjacentHTML('beforeend',`<div class="item"><div class="grow"><b>${esc(x.name)}</b><div class="muted">${x.day} • ${x.time}</div></div><button class="tag" onclick="deleteSchedule(${i})">Hapus</button></div>`));
+noteList.innerHTML=notes.length?'':'<div class="empty">Catatan yang disimpan akan muncul di sini.</div>';notes.forEach((x,i)=>noteList.insertAdjacentHTML('beforeend',`<div class="item"><div class="grow"><b>${esc(x.title)}</b><div class="muted">${esc(x.body).replace(/\\n/g,' ')}</div></div><button class="tag" onclick="deleteNote(${i})">Hapus</button></div>`))}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+taskForm.onsubmit=e=>{e.preventDefault();let a=get('tasks');a.push({name:taskName.value,date:taskDate.value,done:false});put('tasks',a);taskForm.reset();render()};
+function toggleTask(i){let a=get('tasks');a[i].done=!a[i].done;put('tasks',a);render()}function deleteTask(i){let a=get('tasks');a.splice(i,1);put('tasks',a);render()}
+scheduleForm.onsubmit=e=>{e.preventDefault();let a=get('schedule');a.push({name:className.value,day:classDay.value,time:classTime.value});put('schedule',a);scheduleForm.reset();render()};function deleteSchedule(i){let a=get('schedule');a.splice(i,1);put('schedule',a);render()}
+function saveNote(){if(!noteTitle.value.trim()||!noteBody.value.trim())return alert('Isi judul dan catatan terlebih dahulu.');let a=get('notes');a.unshift({title:noteTitle.value,body:noteBody.value});put('notes',a);noteTitle.value='';noteBody.value='';render()}function deleteNote(i){let a=get('notes');a.splice(i,1);put('notes',a);render()}render();
+</script></body></html>
